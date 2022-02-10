@@ -61,8 +61,17 @@ esc - Return to main menu
 
 
 def confirm(x):
-    print(f'\nProjector was last set to {x},')
-    prompt = input('still want to do it? (y/n): ')
-    if prompt.lower() == 'y':
-        return True
-    return False
+    while True:
+        main_screen()
+        allowed_input = {'y', 'n'}
+
+        print(f'\nProjector was last set to {x},')
+        prompt = input('still want to do it? (y/n): ').lower()
+        if prompt not in allowed_input:
+            print('\nInvalid input, try again')
+            input('Press key to continue')
+        else:
+            if prompt.lower() == 'y':
+                return True
+            else:
+                return False
