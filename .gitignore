@@ -1,5 +1,6 @@
 # Project spesific files
 vars.py
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
