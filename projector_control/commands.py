@@ -6,32 +6,40 @@ from vars import auth, ip_addr
 
 
 def vshift_inc(x):
-    return(f'{vshift_inc.__name__} - {x}')
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_inc1&lang=e'
+    for i in range(x):
+        requests.get(url, auth=auth)
+        sleep(.05)
 
 
 def vshift_dec(x):
-    return(f'{vshift_inc.__name__} - {x}')
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_dec1&lang=e'
+    for i in range(x):
+        requests.get(url, auth=auth)
+        sleep(.05)
 
 
 def zoom_inc(x):
-    return(f'{zoom_inc.__name__} - {x}')
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
+    for i in range(x):
+        requests.get(url, auth=auth)
+        sleep(.05)
 
 
 def zoom_dec(x):
-    return(f'{zoom_dec.__name__} - {x}')
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_dec1&lang=e'
+    for u in range(x):
+        requests.get(url, auth=auth)
+        sleep(.05)
 
 
 def backwall():
-    z = zoom_dec(75)
-    s = vshift_dec(100)
+    zoom_dec(75)
+    vshift_dec(100)
     write_entry(backwall.__name__)
-    print(f'{z}\n{s}')
-    sleep(2)
 
 
 def screen():
-    s = vshift_inc(100)
-    z = zoom_inc(75)
+    vshift_inc(100)
+    zoom_inc(75)
     write_entry(screen.__name__)
-    print(f'{z}\n{s}')
-    sleep(2)

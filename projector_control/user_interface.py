@@ -40,13 +40,13 @@ esc - Return to main menu
 
     def on_press(key):
         if key == keyboard.Key.up:
-            print(vshift_inc(1))
+            vshift_inc(1)
         if key == keyboard.Key.down:
-            print(vshift_dec(1))
+            vshift_dec(1)
         if key == keyboard.Key.left:
-            print(zoom_inc(1))
+            zoom_dec(1)
         if key == keyboard.Key.right:
-            print(zoom_dec(1))
+            zoom_inc(1)
 
     def on_release(key):
         if key == keyboard.Key.esc:
