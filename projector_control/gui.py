@@ -1,8 +1,42 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 from db import read_entry
 import commands
+
+
+def ask_yes_no(var, func):
+    """Messagebox function"""
+    # <-- begin: Messagebox logic for power buttons
+    if func == 'power_on':
+        response = messagebox.askyesno(message=var)
+        if response:
+            commands.power_on()
+
+    if func == 'power_off':
+        response = messagebox.askyesno(message=var)
+        if response:
+            commands.power_off()
+    # <-- end: Messagebox logic for power buttons
+
+    # <-- begin: Messagebox logic for preset buttons
+    if func == 'preset':
+        last_preset = read_entry()
+        if var == last_preset:
+            response = messagebox.askyesno(
+                message=f"Preset last set to {var},\nstill want to continue?"
+            )
+            if response:
+                if var == 'screen':
+                   commands.screen()
+                else:
+                    commands.backwall()
+        else:
+            if var == 'screen':
+                commands.screen()
+            else:
+                commands.backwall()
+    # <-- end: Messagebox logic for preset buttons
 
 
 class Power(tk.Frame):
@@ -15,8 +49,16 @@ class Power(tk.Frame):
     def create_widgets(self):
         power_label = tk.Label(self, text='Projector on/off')
 
-        on_btn = ttk.Button(self, text='on', command=commands.power_on)
-        off_btn = ttk.Button(self, text='off', command=commands.power_off)
+        on_btn = ttk.Button(
+            self,
+            text='on',
+            command=lambda: ask_yes_no('Power on projector?', 'power_on')
+        )
+        off_btn = ttk.Button(
+            self,
+            text='off',
+            command=lambda: ask_yes_no('Power off projector?', 'power_off')
+        )
 
         power_label.grid(column=0, columnspan=2, row=0, sticky=tk.NS)
 
@@ -130,10 +172,10 @@ class Preset(tk.Frame):
         preset_label = tk.Label(self, text='Preset positions')
 
         screen_btn = ttk.Button(
-            self, text='Screen', command=commands.screen
+            self, text='Screen', command=lambda: ask_yes_no('screen', 'preset')
         )
         backwall_btn = ttk.Button(
-            self, text='Backwall', command=commands.backwall
+            self, text='Backwall', command=lambda: ask_yes_no('backwall', 'preset')
         )
 
         preset_blank.grid(column=0, columnspan=2, row=0, sticky='WENS')
