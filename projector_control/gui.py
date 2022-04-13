@@ -206,8 +206,3 @@ class App(tk.Tk):
         self.preset_frame = Preset()
         self.preset_frame.grid(column=0, row=3, padx=5,
                                pady=(0, 5), sticky='WENS')
-
-
-if __name__ == '__main__':
-    app = App()
-    app.mainloop()
