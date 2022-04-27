@@ -4,11 +4,14 @@ db = 'db.json'
 
 
 def write_entry(x):
-    with open(db, 'w') as file:
+    with open(db, 'w+') as file:
         json.dump(x, file, indent=4)
 
 
 def read_entry():
-    with open(db, 'r') as file:
-        entry = json.load(file)
-    return entry
+    try:
+        with open(db, 'r') as file:
+            entry = json.load(file)
+        return entry
+    except FileNotFoundError:
+        pass
