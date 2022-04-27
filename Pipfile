@@ -10,6 +10,7 @@ requests = "*"
 mypy = "*"
 types-requests = "*"
 pep8 = "*"
+pyinstaller = "*"
 
 [requires]
 python_version = "3.10"
