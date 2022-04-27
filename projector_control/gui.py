@@ -150,12 +150,12 @@ class Lens_shift(tk.Frame):
 
     def poll_left(self):
         if self.btn_hold:
-            commands.zoom_inc(1)
+            commands.zoom_dec(1)
             self.after_id = self.after(100, self.poll_left)
 
     def poll_right(self):
         if self.btn_hold:
-            commands.zoom_dec(1)
+            commands.zoom_inc(1)
             self.after_id = self.after(100, self.poll_right)
     # <-- end: functions controlling behavior of buttons
 
