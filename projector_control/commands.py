@@ -5,6 +5,13 @@ from time import sleep
 from db import write_entry
 from vars import auth, ip_addr
 
+def check_connection():
+    url = f'{ip_addr}/'
+    try:
+        requests.get(url, auth=auth, timeout=2)
+    except requests.exceptions.ConnectTimeout:
+        return False
+    return True
 
 def power_on():
     url = f'{ip_addr}/cgi-bin/power_on.cgi'

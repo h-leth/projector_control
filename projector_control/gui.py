@@ -185,6 +185,17 @@ class Preset(tk.Frame):
         backwall_btn.grid(column=1, row=2)
 
 
+class Error_frame(tk.Frame):
+    """Display error if connection to projector isn't preset"""
+
+    def __init__(self):
+        super().__init__()
+        self.create_widgets()
+
+    def create_widgets(self):
+        messagebox.showerror(message="Can't connect to projector")
+
+
 class App(tk.Tk):
     """Main program"""
 
@@ -206,3 +217,8 @@ class App(tk.Tk):
         self.preset_frame = Preset()
         self.preset_frame.grid(column=0, row=3, padx=5,
                                pady=(0, 5), sticky='WENS')
+
+        if not commands.check_connection():
+            response = self.error_frame = Error_frame()
+            if response:
+                self.destroy()
