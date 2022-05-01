@@ -1,16 +1,18 @@
 import json
 
-db = 'db.json'
+DB = 'db.json'
 
 
 def write_entry(x):
-    with open(db, 'w+') as file:
+    """Write entry to json file"""
+    with open(DB, 'w+', encoding='utf-8') as file:
         json.dump(x, file, indent=4)
 
 
 def read_entry():
+    """Read entry for json file"""
     try:
-        with open(db, 'r') as file:
+        with open(DB, 'r', encoding='utf-8') as file:
             entry = json.load(file)
         return entry
     except FileNotFoundError:

@@ -28,7 +28,7 @@ def ask_yes_no(var, func):
             )
             if response:
                 if var == 'screen':
-                   commands.screen()
+                    commands.screen()
                 else:
                     commands.backwall()
         else:
@@ -47,6 +47,7 @@ class Power(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        """Creates widgets in power frame"""
         power_label = tk.Label(self, text='Projector on/off')
 
         on_btn = ttk.Button(
@@ -74,6 +75,7 @@ class Shutter(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        """Create widgets in shutter frame"""
         shutter_label = tk.Label(self, text='Shutter open/close')
 
         shutter_open_btn = ttk.Button(
@@ -87,16 +89,18 @@ class Shutter(tk.Frame):
         shutter_close_btn.grid(column=1, row=1)
 
 
-class Lens_shift(tk.Frame):
+class LensShift(tk.Frame):
     """Lens shift frame and widgets"""
 
     def __init__(self):
         super().__init__()
+        self.after_id = None
         self.btn_hold = False
 
         self.create_widgets()
 
     def create_widgets(self):
+        """Create widgets in lens shift frame"""
         lens_shift_blank = tk.Frame(self, height=1, bg='lightgray')
         lens_shift_label = tk.Label(self, text='Manual lens shift')
 
@@ -125,6 +129,7 @@ class Lens_shift(tk.Frame):
 
     # <-- Begin: functions controlling behavior of buttons
     def btn_down(self, event):
+        """Button down behavior"""
         self.btn_hold = True
         if str(event.widget)[-1] == 'n':
             self.poll_up()
@@ -136,24 +141,29 @@ class Lens_shift(tk.Frame):
             self.poll_down()
 
     def btn_relase(self, event):
+        """Release button behavior"""
         self.after_cancel(self.after_id)
 
     def poll_up(self):
+        """Up button behavior"""
         if self.btn_hold:
             commands.vshift_inc(1)
             self.after_id = self.after(100, self.poll_up)
 
     def poll_down(self):
+        """Down button behavior"""
         if self.btn_hold:
             commands.vshift_dec(1)
             self.after_id = self.after(100, self.poll_down)
 
     def poll_left(self):
+        """Left button behavior"""
         if self.btn_hold:
             commands.zoom_dec(1)
             self.after_id = self.after(100, self.poll_left)
 
     def poll_right(self):
+        """Right button behavior"""
         if self.btn_hold:
             commands.zoom_inc(1)
             self.after_id = self.after(100, self.poll_right)
@@ -168,14 +178,17 @@ class Preset(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        """Create widgets in preset frame"""
         preset_blank = tk.Frame(self, height=1, bg='lightgrey')
         preset_label = tk.Label(self, text='Preset positions')
 
         screen_btn = ttk.Button(
-            self, text='Screen', command=lambda: ask_yes_no('screen', 'preset')
+            self, text='Screen',
+            command=lambda: ask_yes_no('screen', 'preset')
         )
         backwall_btn = ttk.Button(
-            self, text='Backwall', command=lambda: ask_yes_no('backwall', 'preset')
+            self, text='Backwall',
+            command=lambda: ask_yes_no('backwall', 'preset')
         )
 
         preset_blank.grid(column=0, columnspan=2, row=0, sticky='WENS')
@@ -185,14 +198,16 @@ class Preset(tk.Frame):
         backwall_btn.grid(column=1, row=2)
 
 
-class Error_frame(tk.Frame):
+class ErrorFrame(tk.Frame):
     """Display error if connection to projector isn't preset"""
 
     def __init__(self):
         super().__init__()
         self.create_widgets()
 
-    def create_widgets(self):
+    @staticmethod
+    def create_widgets():
+        """Create widges in error frame"""
         messagebox.showerror(message="Can't connect to projector")
 
 
@@ -210,7 +225,7 @@ class App(tk.Tk):
         self.shutter_frame = Shutter()
         self.shutter_frame.grid(column=0, row=1, padx=5, sticky='WENS')
 
-        self.lens_shift_frame = Lens_shift()
+        self.lens_shift_frame = LensShift()
         self.lens_shift_frame.grid(
             column=0, row=2, padx=5, pady=5, sticky='WENS')
 
@@ -219,6 +234,6 @@ class App(tk.Tk):
                                pady=(0, 5), sticky='WENS')
 
         if not commands.check_connection():
-            response = self.error_frame = Error_frame()
+            response = self.error_frame = ErrorFrame()
             if response:
                 self.destroy()
