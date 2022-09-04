@@ -2,7 +2,7 @@ from time import sleep
 import requests
 
 from db import write_entry
-from vars import auth, ip_addr
+from vars import auth, ip_addr, sleep_time
 
 
 def check_connection():
@@ -39,47 +39,47 @@ def shutter_close():
     requests.get(url, auth=auth)
 
 
-def vshift_inc(x):
+def vshift_inc(x, wait = sleep_time):
     """"Increments vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_inc1&lang=e'
     for i in range(x):
         requests.get(url, auth=auth)
-        sleep(.05)
+        sleep(wait)
 
 
-def vshift_dec(x):
+def vshift_dec(x, wait=sleep_time):
     """Decrements vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_dec1&lang=e'
     for i in range(x):
         requests.get(url, auth=auth)
-        sleep(.05)
+        sleep(wait)
 
 
-def zoom_inc(x):
+def zoom_inc(x, wait=sleep_time):
     """Increments zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
     for i in range(x):
         requests.get(url, auth=auth)
-        sleep(.05)
+        sleep(wait)
 
 
-def zoom_dec(x):
+def zoom_dec(x, wait=sleep_time):
     """"Decrements zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_dec1&lang=e'
     for i in range(x):
         requests.get(url, auth=auth)
-        sleep(.05)
+        sleep(wait)
 
 
 def backwall():
     """Preset to move image from screen to backwall"""
     zoom_dec(75)
-    vshift_dec(100)
+    vshift_dec(60, 0.1)
     write_entry(backwall.__name__)
 
 
 def screen():
     """Preset to move image from backwall to screen"""
-    vshift_inc(100)
+    vshift_inc(60, 0.1)
     zoom_inc(75)
     write_entry(screen.__name__)
