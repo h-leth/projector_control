@@ -38,6 +38,11 @@ def shutter_close():
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_on&lang=e&osd=one'
     requests.get(url, auth=auth)
 
+def freeze():
+    """Freeze image"""
+    url = f'{ip_addr}/cgi-bin/func.cgi?key=freeze&lang=e&osd=one'
+    requests.get(url, auth=auth)
+
 
 def vshift_inc(x, wait = sleep_time):
     """"Increments vertical shift"""
