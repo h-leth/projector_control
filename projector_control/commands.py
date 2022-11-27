@@ -60,6 +60,22 @@ def vshift_dec(x, wait=sleep_time):
         sleep(wait)
 
 
+def hshift_inc(x, wait = sleep_time):
+    """"Increments horizontal shift"""
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_inc1&lang=e'
+    for i in range(x):
+        requests.get(url, auth=auth)
+        sleep(wait)
+
+
+def hshift_dec(x, wait=sleep_time):
+    """Decrements horizontal shift"""
+    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_dec1&lang=e'
+    for i in range(x):
+        requests.get(url, auth=auth)
+        sleep(wait)
+
+
 def zoom_inc(x, wait=sleep_time):
     """Increments zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
