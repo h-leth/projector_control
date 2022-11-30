@@ -113,7 +113,7 @@ class LensShift(tk.Frame):
         zoom_in_btn = ttk.Button(self, text='in')
         zoom_out_btn = ttk.Button(self, text='out')
 
-        zoom_blank = tk.Frame(self, height=5, bg='lightgray')
+        zoom_blank = tk.Frame(self, height=5)
         zoom_label = tk.Label(self, text='Zoom')
 
         lens_shift_label.grid(column=0, columnspan=3, row=1, sticky='N')
@@ -212,7 +212,7 @@ class Preset(tk.Frame):
 
     def create_widgets(self):
         """Create widgets in preset frame"""
-        preset_blank = tk.Frame(self, height=1, bg='lightgrey')
+        preset_blank = tk.Frame(self, height=1)
         preset_label = tk.Label(self, text='Preset positions')
 
         screen_btn = ttk.Button(
