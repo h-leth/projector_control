@@ -231,6 +231,30 @@ class Preset(tk.Frame):
         backwall_btn.grid(column=1, row=2)
 
 
+class MenuBar(tk.Menu):
+    """Pass"""
+    def __init__(self, parent):
+        tk.Menu.__init__(self, parent)
+
+        self.create_menu(parent)
+
+    def create_menu(self, parent):
+        file_menu = tk.Menu(self, tearoff=False)
+        file_menu.add_command(
+            label='Settings',
+            underline=1,
+            command=lambda: quit(parent)
+        )
+        file_menu.add_separator()
+        file_menu.add_command(
+            label='Exit',
+            underline=1,
+            command=sys.exit
+        )
+
+        self.add_cascade(label="File",underline=0, menu=file_menu)
+
+
 class ErrorFrame(tk.Frame):
     """Display error if connection to projector isn't preset"""
 
@@ -252,6 +276,9 @@ class App(tk.Tk):
         self.title('Projector Control v1.0')
         self.resizable(False, False)
 
+        menubar = MenuBar(self)
+        self.config(menu=menubar)
+
         self.power_frame = Power()
         self.power_frame.grid(column=0, row=0, padx=5, sticky="WENS")
 
@@ -266,7 +293,7 @@ class App(tk.Tk):
         self.lens_shift_frame.grid(
             column=1, row=0, rowspan=3, padx=5, sticky='WENS')
 
-        if not commands.check_connection():
-            response = self.error_frame = ErrorFrame()
-            if response:
-                self.destroy()
+#        if not commands.check_connection():
+#            response = self.error_frame = ErrorFrame()
+#            if response:
+#                self.destroy()
