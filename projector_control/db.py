@@ -1,3 +1,4 @@
+import atexit
 import json
 from requests.auth import HTTPDigestAuth
 
@@ -35,3 +36,7 @@ ip_addr = database.get('login').get('adresse')
 user = database.get('login').get('user')
 password = database.get('login').get('password')
 auth = HTTPDigestAuth(user, password)
+
+@atexit.register
+def dump_database():
+    write_entry(database)
