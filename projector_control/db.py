@@ -1,4 +1,5 @@
 import json
+from requests.auth import HTTPDigestAuth
 
 DB = 'db.json'
 
@@ -17,3 +18,20 @@ def read_entry():
         return entry
     except FileNotFoundError:
         pass
+
+
+def sleep_time():
+    """Checks if a sleeptime is set"""
+    if database.get('settings').get('sleeptime').get('custom') is not None:
+        wait = database.get('settings').get('sleeptime').get('custom')
+    else:
+        wait = database.get('settings').get('sleeptime').get('default')
+    return wait
+
+database = read_entry()
+
+ip_addr = database.get('login').get('adresse')
+
+user = database.get('login').get('user')
+password = database.get('login').get('password')
+auth = HTTPDigestAuth(user, password)

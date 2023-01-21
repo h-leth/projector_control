@@ -1,8 +1,7 @@
 from time import sleep
 import requests
 
-from db import write_entry
-from vars import auth, ip_addr, sleep_time
+from db import auth, database, ip_addr, sleep_time  
 
 
 def check_connection():
@@ -44,69 +43,85 @@ def freeze():
     requests.get(url, auth=auth)
 
 
-def vshift_inc(x, wait = sleep_time):
+def vshift_inc(x):
     """"Increments vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_inc1&lang=e'
     print(f"{vshift_inc.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
-def vshift_dec(x, wait=sleep_time):
+def vshift_dec(x):
     """Decrements vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_dec1&lang=e'
     print(f"{vshift_dec.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
-def hshift_inc(x, wait = sleep_time):
+def hshift_inc(x):
     """"Increments horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_inc1&lang=e'
     print(f"{hshift_inc.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
-def hshift_dec(x, wait=sleep_time):
+def hshift_dec(x):
     """Decrements horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_dec1&lang=e'
     print(f"{hshift_dec.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
-def zoom_inc(x, wait=sleep_time):
+def zoom_inc(x):
     """Increments zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
     print(f"{zoom_inc.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
-def zoom_dec(x, wait=sleep_time):
+def zoom_dec(x):
     """"Decrements zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_dec1&lang=e'
     print(f"{zoom_dec.__name__}")
 #    for i in range(x):
 #        requests.get(url, auth=auth)
-#        sleep(wait)
+#        sleep(sleep_time())
 
 
 def backwall():
     """Preset to move image from screen to backwall"""
-    zoom_dec(75)
-    vshift_dec(60, 0.1)
-    write_entry(backwall.__name__)
+    zoom_dec(
+        database.get('options')
+            .get('steps')
+            .get('zoom')
+    )
+    vshift_dec(
+        database.get('options')
+            .get('steps')
+            .get('vertical')
+    )
+    database.update({'preset': str(backwall.__name__)})
 
 
 def screen():
     """Preset to move image from backwall to screen"""
-    vshift_inc(60, 0.1)
-    zoom_inc(75)
-    write_entry(screen.__name__)
+    vshift_inc(
+        database.get('options')
+            .get('steps')
+            .get('vertical')
+    )
+    zoom_inc(
+        database.get('options')
+            .get('steps')
+            .get('zoom')
+    )
+    database.update({'preset': str(screen.__name__)})

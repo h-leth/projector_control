@@ -1,8 +1,0 @@
-from requests.auth import HTTPDigestAuth
-
-# Replace ip and user/password
-ip_addr = 'http://xxx.xxx.xxx.xxx'
-auth = HTTPDigestAuth('user', 'password')
-
-# Recomended default wait time
-sleep_time = 0.05

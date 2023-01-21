@@ -2,7 +2,7 @@ import sys
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-from db import read_entry
+from db import database
 import commands
 
 
@@ -22,7 +22,7 @@ def ask_yes_no(var, func):
 
     # <-- begin: Messagebox logic for preset buttons
     if func == 'preset':
-        last_preset = read_entry()
+        last_preset = database.get('preset')
         if var == last_preset:
             response = messagebox.askyesno(
                 message=f"Preset last set to {var},\nstill want to continue?"
