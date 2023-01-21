@@ -47,49 +47,55 @@ def freeze():
 def vshift_inc(x, wait = sleep_time):
     """"Increments vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_inc1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{vshift_inc.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def vshift_dec(x, wait=sleep_time):
     """Decrements vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_dec1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{vshift_dec.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def hshift_inc(x, wait = sleep_time):
     """"Increments horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_inc1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{hshift_inc.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def hshift_dec(x, wait=sleep_time):
     """Decrements horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_dec1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{hshift_dec.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def zoom_inc(x, wait=sleep_time):
     """Increments zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{zoom_inc.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def zoom_dec(x, wait=sleep_time):
     """"Decrements zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_dec1&lang=e'
-    for i in range(x):
-        requests.get(url, auth=auth)
-        sleep(wait)
+    print(f"{zoom_dec.__name__}")
+#    for i in range(x):
+#        requests.get(url, auth=auth)
+#        sleep(wait)
 
 
 def backwall():
