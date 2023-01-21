@@ -1,0 +1,17 @@
+{
+    "login": {
+        "url": "https://xxx.xxx.xxx.xxx",
+        "user": "username",
+        "password": "supersecret"
+    },
+    "options": {
+        "sleeptime": {
+            "default": 0.05
+        },
+        "steps": {
+            "vertical": 60,
+            "zoom": 75
+        }
+    },
+    "last_preset": "backwall"
+}
