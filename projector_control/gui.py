@@ -231,20 +231,38 @@ class Preset(tk.Frame):
         screen_btn.grid(column=0, row=2)
         backwall_btn.grid(column=1, row=2)
 
+class OptionsWindow(tk.Toplevel):
+    """Toplevel windows for settings"""
+    def __init__(self):
+        super().__init__()
+
+    def create_window(self):
+        settings = tk.Toplevel()
+        settings.title('Settings')
+        settings.grab_set()
+        settings.attributes('-topmost', 'true')
+
+        btn = ttk.Button(
+            settings,
+            text='Close window',
+            command=settings.destroy
+        )
+        btn.pack()
+
 
 class MenuBar(tk.Menu):
     """Pass"""
-    def __init__(self, parent):
-        tk.Menu.__init__(self, parent)
+    def __init__(self):
+        super().__init__()
 
-        self.create_menu(parent)
+        self.create_menu()
 
-    def create_menu(self, parent):
+    def create_menu(self):
         file_menu = tk.Menu(self, tearoff=False)
         file_menu.add_command(
             label='Settings',
             underline=1,
-            command=lambda: quit(parent)
+            command=lambda: OptionsWindow.create_window(self)
         )
         file_menu.add_separator()
         file_menu.add_command(
@@ -252,7 +270,6 @@ class MenuBar(tk.Menu):
             underline=1,
             command=sys.exit
         )
-
         self.add_cascade(label="File",underline=0, menu=file_menu)
 
 
@@ -277,7 +294,7 @@ class App(tk.Tk):
         self.title('Projector Control v1.0')
         self.resizable(False, False)
 
-        menubar = MenuBar(self)
+        menubar = MenuBar()
         self.config(menu=menubar)
 
         self.power_frame = Power()
