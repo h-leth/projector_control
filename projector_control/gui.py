@@ -237,6 +237,8 @@ class OptionsWindow(tk.Toplevel):
         super().__init__()
 
     def create_window(self):
+        MenuBar.disabled(self)
+
         settings = tk.Toplevel()
         settings.title('Settings')
         settings.grab_set()
@@ -245,9 +247,13 @@ class OptionsWindow(tk.Toplevel):
         btn = ttk.Button(
             settings,
             text='Close window',
-            command=settings.destroy
+            command=lambda: destroy(settings)
         )
         btn.pack()
+
+        def destroy(settings):
+            MenuBar.enabled(self)
+            return settings.destroy()
 
 
 class MenuBar(tk.Menu):
@@ -258,19 +264,25 @@ class MenuBar(tk.Menu):
         self.create_menu()
 
     def create_menu(self):
-        file_menu = tk.Menu(self, tearoff=False)
-        file_menu.add_command(
+        self.file_menu = tk.Menu(self, tearoff=False)
+        self.file_menu.add_command(
             label='Settings',
             underline=1,
             command=lambda: OptionsWindow.create_window(self)
         )
-        file_menu.add_separator()
-        file_menu.add_command(
+        self.file_menu.add_separator()
+        self.file_menu.add_command(
             label='Exit',
             underline=1,
             command=sys.exit
         )
-        self.add_cascade(label="File",underline=0, menu=file_menu)
+        self.add_cascade(label="File",underline=0, menu=self.file_menu)
+
+    def disabled(self):
+        self.file_menu.entryconfig('Settings', {'state': 'disabled'})
+
+    def enabled(self):
+        self.file_menu.entryconfig('Settings', {'state': 'normal'})
 
 
 class ErrorFrame(tk.Frame):
