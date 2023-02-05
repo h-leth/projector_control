@@ -199,7 +199,7 @@ class LensShift(tk.Frame):
     def poll_zoom_out(self):
         """Right button behavior"""
         if self.btn_hold:
-            commands.zoom_inc(1)
+            commands.zoom_ic(1)
             self.after_id = self.after(100, self.poll_zoom_out)
     # <-- end: functions controlling behavior of buttons
 
@@ -244,16 +244,120 @@ class OptionsWindow(tk.Toplevel):
         settings.grab_set()
         settings.attributes('-topmost', 'true')
 
-        btn = ttk.Button(
-            settings,
-            text='Close window',
-            command=lambda: destroy(settings)
-        )
-        btn.pack()
+        OptionsWindow.create_widgets(self, settings)
 
-        def destroy(settings):
+    def create_widgets(self, window):
+        """Widgets for settings window"""
+
+        zoom_steps= tk.StringVar(
+            window,
+            value=database
+                .get('options')
+                .get('steps')
+                .get('zoom')
+        )
+        vert_steps= tk.StringVar(
+            window,
+            value=database
+                .get('options')
+                .get('steps')
+                .get('vertical')
+        )
+        sleep_time = tk.StringVar(
+            window,
+            value=commands.sleep_time()
+        )
+
+        zoom_lable = tk.Label(window, text='Steps Zoom')
+        zoom_entry = tk.Entry(
+            window,
+            width=5,
+            textvariable=zoom_steps,
+            justify='right'
+        )
+        vert_lable = tk.Label(window, text='Steps Vertical')
+        vert_entry = tk.Entry(
+            window,
+            width=5,
+            textvariable=vert_steps,
+            justify='right'
+        )
+
+        spacer = ttk.Separator(window, orient='horizontal')
+
+        sleep_lable = tk.Label(window, text='Sleep time')
+        sleep_entry = tk.Entry(
+            window,
+            width=5,
+            textvariable=sleep_time,
+            justify='right'
+        )
+
+        spacer1 = ttk.Separator(window, orient='horizontal')
+
+        ok_btn = ttk.Button(
+            window,
+            text='Ok',
+            command=lambda: ok_command(window)
+        )
+        cancel_btn = ttk.Button(
+            window,
+            text='Cancel',
+            command=lambda: destroy(window)
+        )
+
+        zoom_lable.grid(
+            column=0, columnspan=3, row=0, padx=5, pady=[5, 0], sticky='w'
+        )
+        zoom_entry.grid(column=3, row=0, padx=5, pady=[5, 0], sticky='e')
+        vert_lable.grid(column=0, row=1, padx=5, sticky='w')
+        vert_entry.grid(column=3, row=1, padx=5, sticky='e')
+
+        spacer.grid(
+            column=0, columnspan=4, row=2, padx=5, pady=5, sticky='WENS'
+        )
+
+        sleep_lable.grid(column=0, row=3, padx=5, sticky='w')
+        sleep_entry.grid(column=3, row=3, padx=5, sticky='e')
+
+        spacer1.grid(
+            column=0, columnspan=4, row=4, padx=5, pady=5, sticky='WENS'
+        )
+
+        ok_btn.grid(column=0, columnspan=2, padx=[5, 1], pady=[0, 5], row=5)
+        cancel_btn.grid(column=2, columnspan=2, padx=[1, 5], pady=[0, 5], row=5)
+
+        def ok_command(window):
+            database.get(
+                'options').get('steps').update({'zoom': zoom_entry.get()}
+            )
+            database.get(
+                'options').get(
+                'steps').update({'vertical': vert_entry.get()}
+            )
+            if str(sleep_entry.get()) == "":
+                database.get(
+                    'options').get(
+                    'sleeptime').update({'custom': "0"}
+                )
+            elif str(sleep_entry.get()) != database.get(
+                'options').get('sleeptime').get('default'):
+
+                database.get(
+                    'options').get(
+                    'sleeptime').update({'custom': str(sleep_entry.get())}
+                )
+            else:
+                try:
+                    database.get('options').get('sleeptime').pop('custom')
+                except KeyError:
+                    pass
+
+            destroy(window)
+
+        def destroy(window):
             MenuBar.enabled(self)
-            return settings.destroy()
+            return window.destroy()
 
 
 class MenuBar(tk.Menu):
