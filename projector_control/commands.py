@@ -109,7 +109,7 @@ def backwall():
             .get('steps')
             .get('vertical')
     )
-    database.update({'preset': str(backwall.__name__)})
+    database.update({'last_preset': str(backwall.__name__)})
 
 
 def screen():
@@ -124,4 +124,4 @@ def screen():
             .get('steps')
             .get('zoom')
     )
-    database.update({'preset': str(screen.__name__)})
+    database.update({'last_preset': str(screen.__name__)})

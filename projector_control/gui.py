@@ -22,7 +22,7 @@ def ask_yes_no(var, func):
 
     # <-- begin: Messagebox logic for preset buttons
     if func == 'preset':
-        last_preset = database.get('preset')
+        last_preset = database.get('last_preset')
         if var == last_preset:
             response = messagebox.askyesno(
                 message=f"Preset last set to {var},\nstill want to continue?"
@@ -199,7 +199,7 @@ class LensShift(tk.Frame):
     def poll_zoom_out(self):
         """Right button behavior"""
         if self.btn_hold:
-            commands.zoom_ic(1)
+            commands.zoom_inc(1)
             self.after_id = self.after(100, self.poll_zoom_out)
     # <-- end: functions controlling behavior of buttons
 
