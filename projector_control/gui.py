@@ -243,6 +243,7 @@ class OptionsWindow(tk.Toplevel):
         settings.title('Settings')
         settings.grab_set()
         settings.attributes('-topmost', 'true')
+        settings.resizable(False, False)
 
         OptionsWindow.create_widgets(self, settings)
 
