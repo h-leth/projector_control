@@ -23,15 +23,15 @@ def read_entry():
 
 def sleep_time():
     """Checks if a sleeptime is set"""
-    if database.get('settings').get('sleeptime').get('custom') is not None:
-        wait = database.get('settings').get('sleeptime').get('custom')
+    if database.get('options').get('sleeptime').get('custom') is not None:
+        wait = database.get('options').get('sleeptime').get('custom')
     else:
-        wait = database.get('settings').get('sleeptime').get('default')
+        wait = database.get('options').get('sleeptime').get('default')
     return wait
 
 database = read_entry()
 
-ip_addr = database.get('login').get('adresse')
+ip_addr = database.get('login').get('url')
 
 user = database.get('login').get('user')
 password = database.get('login').get('password')
