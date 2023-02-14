@@ -250,21 +250,21 @@ class OptionsWindow(tk.Toplevel):
     def create_widgets(self, window):
         """Widgets for settings window"""
 
-        zoom_steps= tk.StringVar(
+        zoom_steps = tk.IntVar(
             window,
-            value=database
-                .get('options')
-                .get('steps')
-                .get('zoom')
+            value=int(database
+                      .get('options')
+                      .get('steps')
+                      .get('zoom'))
         )
-        vert_steps= tk.StringVar(
+        vert_steps = tk.IntVar(
             window,
-            value=database
-                .get('options')
-                .get('steps')
-                .get('vertical')
+            value=int(database
+                      .get('options')
+                      .get('steps')
+                      .get('vertical'))
         )
-        sleep_time = tk.StringVar(
+        sleep_time = tk.IntVar(
             window,
             value=commands.sleep_time()
         )
@@ -329,32 +329,40 @@ class OptionsWindow(tk.Toplevel):
         cancel_btn.grid(column=2, columnspan=2, padx=[1, 5], pady=[0, 5], row=5)
 
         def ok_command(window):
-            database.get(
-                'options').get('steps').update({'zoom': zoom_entry.get()}
-            )
-            database.get(
-                'options').get(
-                'steps').update({'vertical': vert_entry.get()}
-            )
+            validated = True
+
+            try:
+                database.get('options').get('steps').update(
+                    {'zoom': int(zoom_entry.get())}
+                )
+                database.get('options').get('steps').update(
+                    {'vertical': int(vert_entry.get())}
+                )
+            except ValueError:
+                ErrorFrame("Vertical steps and Zoom has to be a integer")
+                validated = False
+
             if str(sleep_entry.get()) == "":
-                database.get(
-                    'options').get(
-                    'sleeptime').update({'custom': "0"}
+                database.get('options').get('sleeptime').update(
+                    {'custom': "0"}
                 )
             elif str(sleep_entry.get()) != database.get(
-                'options').get('sleeptime').get('default'):
-
-                database.get(
-                    'options').get(
-                    'sleeptime').update({'custom': str(sleep_entry.get())}
-                )
+                    'options').get('sleeptime').get('default'):
+                try:
+                    database.get('options').get('sleeptime').update(
+                        {'custom': float(sleep_entry.get())}
+                    )
+                except ValueError:
+                    ErrorFrame('Sleep time has to be a floating number')
+                    validated = False
             else:
                 try:
                     database.get('options').get('sleeptime').pop('custom')
                 except KeyError:
                     pass
 
-            destroy(window)
+            if validated:
+                destroy(window)
 
         def destroy(window):
             MenuBar.enabled(self)
