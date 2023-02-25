@@ -92,6 +92,7 @@ class Shutter(tk.Frame):
         shutter_close_btn.grid(column=1, row=1)
         shutter_freeze_btn.grid(column=0, columnspan=2, row=2, sticky=tk.NS)
 
+
 class LensShift(tk.Frame):
     """Lens shift frame and widgets"""
 
@@ -108,9 +109,9 @@ class LensShift(tk.Frame):
 
         up_btn = ttk.Button(self, text='up')
         left_btn = ttk.Button(self, text='left')
-        right_btn= ttk.Button(self, text='right')
+        right_btn = ttk.Button(self, text='right')
         down_btn = ttk.Button(self, text='down')
-        
+
         zoom_in_btn = ttk.Button(self, text='in')
         zoom_out_btn = ttk.Button(self, text='out')
 
@@ -123,7 +124,7 @@ class LensShift(tk.Frame):
         left_btn.grid(column=0, row=3, sticky='E')
         right_btn.grid(column=1, row=3, sticky='W')
         down_btn.grid(column=0, columnspan=3, row=4, sticky='NS')
-        
+
         zoom_blank.grid(column=0, columnspan=3, row=5, sticky='WENS')
         zoom_label.grid(column=0, columnspan=3, row=6, sticky='NS')
 
@@ -131,19 +132,19 @@ class LensShift(tk.Frame):
         zoom_out_btn.grid(column=1, row=7, sticky='W')
 
         up_btn.bind('<ButtonPress-1>', self.btn_down)
-        up_btn.bind('<ButtonRelease-1>', self.btn_relase)
+        up_btn.bind('<ButtonRelease-1>', self.btn_release)
         down_btn.bind('<ButtonPress-1>', self.btn_down)
-        down_btn.bind('<ButtonRelease-1>', self.btn_relase)
-        
+        down_btn.bind('<ButtonRelease-1>', self.btn_release)
+
         left_btn.bind('<ButtonPress-1>', self.btn_down)
-        left_btn.bind('<ButtonRelease-1>', self.btn_relase)
+        left_btn.bind('<ButtonRelease-1>', self.btn_release)
         right_btn.bind('<ButtonPress-1>', self.btn_down)
-        right_btn.bind('<ButtonRelease-1>', self.btn_relase)
+        right_btn.bind('<ButtonRelease-1>', self.btn_release)
 
         zoom_in_btn.bind('<ButtonPress-1>', self.btn_down)
-        zoom_in_btn.bind('<ButtonRelease-1>', self.btn_relase)
+        zoom_in_btn.bind('<ButtonRelease-1>', self.btn_release)
         zoom_out_btn.bind('<ButtonPress-1>', self.btn_down)
-        zoom_out_btn.bind('<ButtonRelease-1>', self.btn_relase)
+        zoom_out_btn.bind('<ButtonRelease-1>', self.btn_release)
 
     # <-- Begin: functions controlling behavior of buttons
     def btn_down(self, event):
@@ -162,7 +163,7 @@ class LensShift(tk.Frame):
         if str(event.widget)[-1] == '6':
             self.poll_zoom_out()
 
-    def btn_relase(self, event):
+    def btn_release(self, _event):
         """Release button behavior"""
         self.after_cancel(self.after_id)
 
@@ -189,7 +190,7 @@ class LensShift(tk.Frame):
         if self.btn_hold:
             commands.hshift_inc(1)
             self.after_id = self.after(100, self.poll_right)
-    
+
     def poll_zoom_in(self):
         """Left button behavior"""
         if self.btn_hold:
@@ -231,8 +232,10 @@ class Preset(tk.Frame):
         screen_btn.grid(column=0, row=2)
         backwall_btn.grid(column=1, row=2)
 
+
 class OptionsWindow(tk.Toplevel):
     """Toplevel windows for settings"""
+
     def __init__(self):
         super().__init__()
 
@@ -326,7 +329,9 @@ class OptionsWindow(tk.Toplevel):
         )
 
         ok_btn.grid(column=0, columnspan=2, padx=[5, 1], pady=[0, 5], row=5)
-        cancel_btn.grid(column=2, columnspan=2, padx=[1, 5], pady=[0, 5], row=5)
+        cancel_btn.grid(
+            column=2, columnspan=2, padx=[1, 5], pady=[0, 5], row=5
+        )
 
         def ok_command(window):
             validated = True
@@ -371,6 +376,7 @@ class OptionsWindow(tk.Toplevel):
 
 class MenuBar(tk.Menu):
     """Pass"""
+
     def __init__(self):
         super().__init__()
 
@@ -389,7 +395,7 @@ class MenuBar(tk.Menu):
             underline=1,
             command=sys.exit
         )
-        self.add_cascade(label="File",underline=0, menu=self.file_menu)
+        self.add_cascade(label="File", underline=0, menu=self.file_menu)
 
     def disabled(self):
         self.file_menu.entryconfig('Settings', {'state': 'disabled'})
