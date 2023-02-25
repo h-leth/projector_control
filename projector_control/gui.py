@@ -422,7 +422,7 @@ class App(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        self.title('Projector Control v1.0')
+        self.title('Projector Control v2.0')
         self.resizable(False, False)
 
         menubar = MenuBar()
