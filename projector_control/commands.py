@@ -1,7 +1,7 @@
 from time import sleep
 import requests
 
-from db import auth, database, ip_addr, sleep_time  
+from db import auth, database, ip_addr, sleep_time
 
 
 def check_connection():
@@ -37,6 +37,7 @@ def shutter_close():
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_on&lang=e&osd=one'
     requests.get(url, auth=auth)
 
+
 def freeze():
     """Freeze image"""
     url = f'{ip_addr}/cgi-bin/func.cgi?key=freeze&lang=e&osd=one'
@@ -47,7 +48,7 @@ def vshift_inc(x):
     """"Increments vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_inc1&lang=e'
     print(f"{vshift_inc.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -56,7 +57,7 @@ def vshift_dec(x):
     """Decrements vertical shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_vshift_dec1&lang=e'
     print(f"{vshift_dec.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -65,7 +66,7 @@ def hshift_inc(x):
     """"Increments horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_inc1&lang=e'
     print(f"{hshift_inc.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -74,7 +75,7 @@ def hshift_dec(x):
     """Decrements horizontal shift"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_hshift_dec1&lang=e'
     print(f"{hshift_dec.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -83,7 +84,7 @@ def zoom_inc(x):
     """Increments zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_inc1&lang=e'
     print(f"{zoom_inc.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -92,7 +93,7 @@ def zoom_dec(x):
     """"Decrements zoom"""
     url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=lens_zoom_dec1&lang=e'
     print(f"{zoom_dec.__name__}")
-    for i in range(x):
+    for _i in range(x):
         requests.get(url, auth=auth)
         sleep(sleep_time())
 
@@ -101,13 +102,13 @@ def backwall():
     """Preset to move image from screen to backwall"""
     zoom_dec(
         database.get('options')
-            .get('steps')
-            .get('zoom')
+        .get('steps')
+        .get('zoom')
     )
     vshift_dec(
         database.get('options')
-            .get('steps')
-            .get('vertical')
+        .get('steps')
+        .get('vertical')
     )
     database.update({'last_preset': str(backwall.__name__)})
 
