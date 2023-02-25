@@ -436,8 +436,8 @@ class App(tk.Tk):
         self.lens_shift_frame.grid(
             column=1, row=0, rowspan=3, padx=5, sticky='WENS')
 
-#        if not commands.check_connection():
-#            response = self.error_frame = ErrorFrame(
-#                "Can't connect to projector.")
-#            if response:
-#                self.destroy()
+        if not commands.check_connection():
+            response = self.error_frame = ErrorFrame(
+                "Can't connect to projector.")
+            if response:
+                self.destroy()
