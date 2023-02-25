@@ -401,14 +401,14 @@ class MenuBar(tk.Menu):
 class ErrorFrame(tk.Frame):
     """Display error if connection to projector isn't preset"""
 
-    def __init__(self):
+    def __init__(self, msg):
         super().__init__()
-        self.create_widgets()
+        self.create_widgets(msg)
 
     @staticmethod
-    def create_widgets():
+    def create_widgets(msg):
         """Create widges in error frame"""
-        messagebox.showerror(message="Can't connect to projector")
+        messagebox.showerror(message=msg)
 
 
 class App(tk.Tk):
@@ -437,6 +437,7 @@ class App(tk.Tk):
             column=1, row=0, rowspan=3, padx=5, sticky='WENS')
 
 #        if not commands.check_connection():
-#            response = self.error_frame = ErrorFrame()
+#            response = self.error_frame = ErrorFrame(
+#                "Can't connect to projector.")
 #            if response:
 #                self.destroy()
