@@ -6,42 +6,47 @@ from db import auth, database, ip_addr, sleep_time
 
 def check_connection():
     """Check the connection to projector"""
-    url = f'{ip_addr}/'
-    try:
-        requests.get(url, auth=auth, timeout=2)
-    except requests.exceptions.ConnectTimeout:
-        return False
-    return True
+#    url = f'{ip_addr}/'
+#    try:
+#        requests.get(url, auth=auth, timeout=2)
+#    except requests.exceptions.ConnectTimeout:
+#        return False
+#    return True
 
 
 def power_on():
     """Power on"""
-    url = f'{ip_addr}/cgi-bin/power_on.cgi'
-    requests.post(url, auth=auth)
+#    url = f'{ip_addr}/cgi-bin/power_on.cgi'
+#    requests.post(url, auth=auth)
+    print('Power on')
 
 
 def power_off():
     """Power off"""
-    url = f'{ip_addr}/cgi-bin/power_off.cgi'
-    requests.post(url, auth=auth)
+#    url = f'{ip_addr}/cgi-bin/power_off.cgi'
+#    requests.post(url, auth=auth)
+    print('Power off')
 
 
 def shutter_open():
     """Open shutter"""
-    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_off&lang=e&osd=on'
-    requests.get(url, auth=auth)
+#    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_off&lang=e&osd=on'
+#    requests.get(url, auth=auth)
+    print('Shutter open')
 
 
 def shutter_close():
     """Close shutter"""
-    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_on&lang=e&osd=one'
-    requests.get(url, auth=auth)
+#    url = f'{ip_addr}/cgi-bin/proj_ctl.cgi?key=shutter_on&lang=e&osd=one'
+#    requests.get(url, auth=auth)
+    print('Shutter close')
 
 
 def freeze():
     """Freeze image"""
-    url = f'{ip_addr}/cgi-bin/func.cgi?key=freeze&lang=e&osd=one'
-    requests.get(url, auth=auth)
+#    url = f'{ip_addr}/cgi-bin/func.cgi?key=freeze&lang=e&osd=one'
+#    requests.get(url, auth=auth)
+    print('Freeze')
 
 
 def vshift_inc(x):
@@ -111,12 +116,12 @@ def screen():
     """Preset to move image from backwall to screen"""
     vshift_inc(
         database.get('options')
-            .get('steps')
-            .get('vertical')
+        .get('steps')
+        .get('vertical')
     )
     zoom_inc(
         database.get('options')
-            .get('steps')
-            .get('zoom')
+        .get('steps')
+        .get('zoom')
     )
     database.update({'last_preset': str(screen.__name__)})
